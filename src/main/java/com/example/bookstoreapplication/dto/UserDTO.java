@@ -10,18 +10,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.List;
 @Data
 @NoArgsConstructor
 public @ToString class UserDTO {
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message="Invalid First Name(First Letter Should be in Upper Case and min 3 Characters.)")
-    String firstName;
+    String first_name;
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z]{1,}$", message="Invalid Last Name(First Letter Should be in Upper Case")
-    String lastName;
+    String last_name;
     @NotEmpty(message = "Address Cannot be Empty")
     String address;
     @NotNull(message = "Email Address cannot be Null")
-    List<String> emailAddress;
+    String email_address;
     @JsonFormat(pattern = "yyyy MM dd")
     @NotNull(message = "Start Date cannot be Empty")
     @PastOrPresent(message = "Start Date should be past or present date")
