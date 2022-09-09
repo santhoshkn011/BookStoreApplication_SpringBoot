@@ -5,6 +5,7 @@ import com.example.bookstoreapplication.dto.ResponseDTO;
 import com.example.bookstoreapplication.dto.UserDTO;
 import com.example.bookstoreapplication.model.UserDetails;
 import com.example.bookstoreapplication.service.UserService;
+import com.example.bookstoreapplication.utility.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    TokenUtility tokenUtility;
     //Home Page
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
     public String greet() {
@@ -33,10 +36,18 @@ public class UserController {
 //    }
     //insert data using Utility layer and generated Token
     @PostMapping("/register")
-    public ResponseEntity<String>AddAddressDetails(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String>AddUserDetails(@Valid @RequestBody UserDTO userDTO) {
         String token = userService.insertData(userDTO);
         ResponseDTO respDTO = new ResponseDTO("Data Added Successfully and email sent to the User", token);
         return new ResponseEntity(respDTO, HttpStatus.CREATED);
+    }
+    //Get User Data by token
+    @GetMapping("/getUser/{token}")
+    public ResponseEntity<String>getUserDetails(@PathVariable String token){
+        UserDetails userData = userService.getUserDataByToken(token);
+        Long Userid = tokenUtility.decodeToken(token);
+        ResponseDTO respDTO = new ResponseDTO("Data retrieved successfully for the ID: "+Userid, userData);
+        return new ResponseEntity(respDTO, HttpStatus.OK);
     }
     //Get all data
     @GetMapping("/allUser")
@@ -68,9 +79,14 @@ public class UserController {
     }
     //Delete the User details by User ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity <ResponseDTO> deleteUserData(@PathVariable Long id) {
+    public ResponseEntity <ResponseDTO> deleteUserDataByID(@PathVariable Long id) {
         UserDetails deletedData = userService.deleteData(id);
         ResponseDTO respDTO= new ResponseDTO("Deleted Successfully and e-mail sent, Below Data is deleted", deletedData);
         return new ResponseEntity<>(respDTO, HttpStatus.OK);
+    }
+    //Login check
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
+        return new ResponseEntity<>(userService.loginUser(loginDTO),HttpStatus.OK);
     }
 }
