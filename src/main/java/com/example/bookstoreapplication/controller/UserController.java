@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -24,7 +23,7 @@ public class UserController {
     TokenUtility tokenUtility;
     //Home Page
     @RequestMapping(value = {"", "/", "/home"}, method = RequestMethod.GET)
-    public String greet() {
+    public String homePage() {
         return "Hello! This is Book Store Application Home Page";
     }
     //Insert data
@@ -37,8 +36,8 @@ public class UserController {
     //insert data using Utility layer and generated Token
     @PostMapping("/register")
     public ResponseEntity<String>AddUserDetails(@Valid @RequestBody UserDTO userDTO) {
-        String token = userService.insertData(userDTO);
-        ResponseDTO respDTO = new ResponseDTO("Data Added Successfully and email sent to the User", token);
+        String response = userService.insertData(userDTO);
+        ResponseDTO respDTO = new ResponseDTO("Data Added Successfully and email sent to the User", response);
         return new ResponseEntity(respDTO, HttpStatus.CREATED);
     }
     //Get User Data by token
@@ -87,8 +86,22 @@ public class UserController {
     //Login check
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
-        UserDetails response = userService.loginUser(loginDTO);
-        ResponseDTO responseDTO = new ResponseDTO("Login Successful!", response);
+        String response = userService.loginUser(loginDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Login Status:", response);
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+    //Change password
+    @PostMapping("/changePassword")
+    public ResponseEntity<ResponseDTO> changePassword(@RequestBody LoginDTO loginDTO) {
+        String response = userService.changePassword(loginDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Password Status:", response);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //Forgot Password
+    @PostMapping("/forgotPassword/{email}")
+    public ResponseEntity<ResponseDTO> forgotPassword(@PathVariable String email) {
+        String response = userService.forgotPassword(email);
+        ResponseDTO responseDTO = new ResponseDTO("Password Link Shared to email", response);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

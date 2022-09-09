@@ -1,13 +1,10 @@
 package com.example.bookstoreapplication.service;
 
 import com.example.bookstoreapplication.dto.LoginDTO;
-import com.example.bookstoreapplication.dto.ResponseDTO;
 import com.example.bookstoreapplication.dto.UserDTO;
 import com.example.bookstoreapplication.model.UserDetails;
-import org.apache.catalina.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IUserService {
 //    UserDetails addUserData(UserDTO userDto);
@@ -25,5 +22,9 @@ public interface IUserService {
 
     UserDetails getUserDataByToken(String token);
 
-    UserDetails loginUser(LoginDTO loginDTO);
+    String loginUser(LoginDTO loginDTO);
+
+    String changePassword(LoginDTO loginDTO);
+
+    String forgotPassword(String email);
 }
