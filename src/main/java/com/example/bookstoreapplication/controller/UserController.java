@@ -1,5 +1,6 @@
 package com.example.bookstoreapplication.controller;
 
+import com.example.bookstoreapplication.dto.LoginDTO;
 import com.example.bookstoreapplication.dto.ResponseDTO;
 import com.example.bookstoreapplication.dto.UserDTO;
 import com.example.bookstoreapplication.model.UserDetails;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/BookStore")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -24,21 +25,21 @@ public class UserController {
         return "Hello! This is Book Store Application Home Page";
     }
     //Insert data
-    @PostMapping("/register")
-    public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDTO userDto) {
-        UserDetails userData = userService.addUserData(userDto);
-        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", userData);
-        return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-    }
+//    @PostMapping("/insert")
+//    public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDTO userDto) {
+//        UserDetails userData = userService.addUserData(userDto);
+//        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", userData);
+//        return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+//    }
     //insert data using Utility layer and generated Token
-    @PostMapping("/insert")
+    @PostMapping("/register")
     public ResponseEntity<String>AddAddressDetails(@Valid @RequestBody UserDTO userDTO) {
         String token = userService.insertData(userDTO);
         ResponseDTO respDTO = new ResponseDTO("Data Added Successfully and email sent to the User", token);
         return new ResponseEntity(respDTO, HttpStatus.CREATED);
     }
     //Get all data
-    @GetMapping("/allData")
+    @GetMapping("/allUser")
     public ResponseEntity<ResponseDTO> getAllUserDetails(){
         List<UserDetails> userDetailsList = userService.getAllUserData();
         ResponseDTO responseDTO = new ResponseDTO("All User Details, total count: "+ userDetailsList.size(),userDetailsList);
@@ -54,7 +55,7 @@ public class UserController {
     //Get User Data by Email Address
     @GetMapping("/email/{email}")
     public ResponseEntity<ResponseDTO> getUserByEmail(@PathVariable String email){
-        List<UserDetails> userDetails = userService.getUserDataByEmailAddress(email);
+        UserDetails userDetails = userService.getUserDataByEmailAddress(email);
         ResponseDTO responseDTO = new ResponseDTO("User Details with the Email Address: "+email, userDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }

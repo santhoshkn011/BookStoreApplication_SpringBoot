@@ -14,13 +14,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public @ToString class UserDTO {
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message="Invalid First Name(First Letter Should be in Upper Case and min 3 Characters.)")
-    String first_name;
+    String firstName;
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z]{1,}$", message="Invalid Last Name(First Letter Should be in Upper Case")
-    String last_name;
+    String lastName;
     @NotEmpty(message = "Address Cannot be Empty")
     String address;
     @NotNull(message = "Email Address cannot be Null")
-    String email_address;
+    String emailAddress;
     @JsonFormat(pattern = "yyyy MM dd")
     @NotNull(message = "Start Date cannot be Empty")
     @PastOrPresent(message = "Start Date should be past or present date")

@@ -9,26 +9,26 @@ import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "book_store")
+@Table(name = "user")
 public @Data class UserDetails {
     //User Entities
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false)
-    Long user_id;
-    String first_name;
-    String last_name;
+    @Column(name = "userId", nullable = false)
+    Long userId;
+    String firstName;
+    String lastName;
     String address;
     @Column(name = "email", nullable = false)
-    String email_address;
+    String emailAddress;
     LocalDate DOB;
     String password;
 
     public UserDetails(UserDTO userdto){
-        this.first_name = userdto.getFirst_name();
-        this.last_name = userdto.getLast_name();
+        this.firstName = userdto.getFirstName();
+        this.lastName = userdto.getLastName();
         this.address = userdto.getAddress();
-        this.email_address = userdto.getEmail_address();
+        this.emailAddress = userdto.getEmailAddress();
         this.DOB = userdto.getDOB();
         this.password = userdto.getPassword();
     }
