@@ -87,6 +87,8 @@ public class UserController {
     //Login check
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
-        return new ResponseEntity<>(userService.loginUser(loginDTO),HttpStatus.OK);
+        UserDetails response = userService.loginUser(loginDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Login Successful!", response);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 }

@@ -25,5 +25,5 @@ public interface IUserService {
 
     UserDetails getUserDataByToken(String token);
 
-    ResponseDTO loginUser(LoginDTO loginDTO);
+    UserDetails loginUser(LoginDTO loginDTO);
 }

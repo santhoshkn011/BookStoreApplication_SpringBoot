@@ -52,23 +52,18 @@ public class UserService implements IUserService {
     }
     //Login check
     @Override
-    public ResponseDTO loginUser(LoginDTO loginDTO) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        Optional<UserDetails> login = Optional.ofNullable(userRepo.findByEmailAddress(loginDTO.getEmailAddress()));
-        if(login.isPresent()){
-            //String pass = login.get().getPassword();
-            if(login.get().getPassword().equals(loginDTO.getPassword())){
-                responseDTO.setMessage("login successful ");
-                responseDTO.setResponse(login.get());
-                return responseDTO;
-            }
-            else {
-                responseDTO.setMessage("Sorry! login is unsuccessful");
-                responseDTO.setResponse("Wrong password");
-                return responseDTO;
-            }
-        }
-        return new ResponseDTO("User not found!","Wrong email");
+    public UserDetails loginUser(LoginDTO loginDTO) {
+        Optional<UserDetails> userDetails = Optional.ofNullable(userRepo.findByEmailAddress(loginDTO.getEmailAddress()));
+        if (userDetails.isPresent()) {
+            String passWord = userDetails.get().getPassword();
+            if(passWord == loginDTO.getPassword()) {
+                emailSender.sendEmail(userDetails.get().getEmailAddress(), "Login", "Login Successful!");
+                return userDetails.get();
+            } else
+                emailSender.sendEmail(userDetails.get().getEmailAddress(), "Login", "You have entered Invalid password!");
+                throw new UserException("Wrong Password!!!");
+        }else
+            throw new UserException("Login Failed, Entered wrong email or password!!!");
     }
 
     //Get all User Details list
@@ -128,7 +123,6 @@ public class UserService implements IUserService {
         if(userDetails != null){
             //sending email
             emailSender.sendEmail(userDetails.getEmailAddress(), "Data Deleted!!!", "Your Data deleted successfully from the Book Store Application!!");
-
             userRepo.deleteById(id);
         }else
             throw new UserException("Error: Cannot find User ID " + id);
