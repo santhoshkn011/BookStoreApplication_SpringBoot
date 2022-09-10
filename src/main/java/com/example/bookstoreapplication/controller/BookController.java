@@ -1,10 +1,9 @@
 package com.example.bookstoreapplication.controller;
 
 import com.example.bookstoreapplication.dto.BookDTO;
+import com.example.bookstoreapplication.dto.QuantityDTO;
 import com.example.bookstoreapplication.dto.ResponseDTO;
-import com.example.bookstoreapplication.dto.UserDTO;
 import com.example.bookstoreapplication.model.Book;
-import com.example.bookstoreapplication.model.UserDetails;
 import com.example.bookstoreapplication.service.IBookService;
 import com.example.bookstoreapplication.utility.TokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class BookController {
     //Inserting Data
     @PostMapping("/insert")
     public ResponseEntity<ResponseDTO> addBookDetails(@Valid @RequestBody BookDTO bookDTO){
-        Book response = bookService.addBookDetails(bookDTO);
+        String response = bookService.addBookDetails(bookDTO);
         ResponseDTO responseDTO = new ResponseDTO("Book Details Added", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
@@ -63,17 +62,31 @@ public class BookController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
     //Update by Book ID
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateData/{id}")
     public ResponseEntity<ResponseDTO> updateUserByEmailAddress(@PathVariable Long id,@Valid @RequestBody BookDTO bookDTO) {
         Book bookData = bookService.updateDataById(bookDTO, id);
         ResponseDTO respDTO= new ResponseDTO("Data Update info", bookData);
         return new ResponseEntity<>(respDTO, HttpStatus.OK);
     }
-    //Sorting the book details by price
-//    @GetMapping("/sortByPrice/ascending")
-//    public ResponseEntity<ResponseDTO> sortByPrice(){
-//        List<Book> bookList = bookService.sortBookDetailsByPrice();
-//        ResponseDTO responseDTO = new ResponseDTO("Sorted by Price in Ascending order", bookList);
-//        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-//    }
+    //Sorting in Ascending order by price
+    @GetMapping("/sort/ascendingPrice")
+    public ResponseEntity<ResponseDTO> sortingAscending(){
+        List<Book> bookList = bookService.sortAscendingByPrice();
+        ResponseDTO responseDTO = new ResponseDTO("Sorted by Price in Ascending order", bookList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //Sorting in Descending order by price
+    @GetMapping("/sort/descendingPrice")
+    public ResponseEntity<ResponseDTO> sortingDescending(){
+        List<Book> bookList = bookService.sortDescendingByPrice();
+        ResponseDTO responseDTO = new ResponseDTO("Sorted by Price in Ascending order", bookList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //update quantity by Book ID
+    @PutMapping("/updateQuantity/{id}")
+    public ResponseEntity<ResponseDTO> updateQuantityById(@PathVariable Long id,@Valid @RequestBody QuantityDTO quantityDTO) {
+        String response = bookService.updateQuantityById(quantityDTO, id);
+        ResponseDTO respDTO= new ResponseDTO("Data Update info", response);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
+    }
 }

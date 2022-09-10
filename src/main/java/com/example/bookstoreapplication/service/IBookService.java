@@ -1,12 +1,13 @@
 package com.example.bookstoreapplication.service;
 
 import com.example.bookstoreapplication.dto.BookDTO;
+import com.example.bookstoreapplication.dto.QuantityDTO;
 import com.example.bookstoreapplication.model.Book;
 
 import java.util.List;
 
 public interface IBookService {
-    Book addBookDetails(BookDTO bookDTO);
+    String addBookDetails(BookDTO bookDTO);
 
     List<Book> allBookDetails(BookDTO bookDTO);
 
@@ -18,5 +19,9 @@ public interface IBookService {
 
     Book updateDataById(BookDTO bookDTO, Long id);
 
-//    List<Book> sortBookDetailsByPrice();
+    List<Book> sortAscendingByPrice();
+
+    List<Book> sortDescendingByPrice();
+
+    String updateQuantityById(QuantityDTO quantityDTO, Long id);
 }
