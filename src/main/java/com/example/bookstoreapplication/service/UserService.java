@@ -151,4 +151,5 @@ public class UserService implements IUserService {
             throw new UserException("Error: Cannot find User ID " + id);
         return userDetails;
     }
+
 }
