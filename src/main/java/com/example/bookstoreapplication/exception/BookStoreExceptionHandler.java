@@ -27,20 +27,25 @@ public class BookStoreExceptionHandler {
     }
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ResponseDTO> handleBookStoreException(UserException exception){
-        ResponseDTO resDTO = new ResponseDTO("Exception while processing REST request", exception.getMessage());
+        ResponseDTO resDTO = new ResponseDTO("Exception while processing User REST request", exception.getMessage());
         return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(BookException.class)
     public ResponseEntity<ResponseDTO> handleBookStoreException(BookException exception){
-        ResponseDTO resDTO = new ResponseDTO("Exception while processing REST request", exception.getMessage());
+        ResponseDTO resDTO = new ResponseDTO("Exception while processing Book REST request", exception.getMessage());
         return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ResponseDTO> handleHttpMessageNotReadableException(
-            HttpMessageNotReadableException exception) {
-        log.error("Invalid DOB Format", exception);
-        ResponseDTO resDTO = new ResponseDTO("Exception while processing REST Request",
-                "Date Should be in the Format of 'yyyy mm dd'");
+    @ExceptionHandler(CartException.class)
+    public ResponseEntity<ResponseDTO> handleBookStoreException(CartException exception){
+        ResponseDTO resDTO = new ResponseDTO("Exception while processing Cart REST request", exception.getMessage());
         return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
     }
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    public ResponseEntity<ResponseDTO> handleHttpMessageNotReadableException(
+//            HttpMessageNotReadableException exception) {
+//        log.error("Invalid DOB Format", exception);
+//        ResponseDTO resDTO = new ResponseDTO("Exception while processing REST Request",
+//                "Date Should be in the Format of 'yyyy mm dd'");
+//        return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
+//    }
 }
