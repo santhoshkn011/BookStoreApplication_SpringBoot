@@ -45,11 +45,18 @@ public class CartController {
         ResponseDTO responseDTO = new ResponseDTO("Cart Details with User ID: "+userId, userCartDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
-    //Update Cart Details By CartId
+    //Update Cart Details(Book and Quantity) By CartId
     @PutMapping("/update/{cartId}")
     public ResponseEntity<ResponseDTO> updateCartById(@PathVariable Long cartId, @RequestBody CartDTO cartDTO){
         String response = cartService.editCartByCartId(cartId, cartDTO);
         ResponseDTO responseDTO = new ResponseDTO("Updated Cart Data with Cart ID: "+cartId, response);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //Delete Cart by Cart ID
+    @DeleteMapping("/delete/{cartId}")
+    public ResponseEntity<ResponseDTO> deleteCartById(@PathVariable Long cartId){
+        String response = cartService.deleteCartByCartId(cartId);
+        ResponseDTO responseDTO = new ResponseDTO("Cart Deleted Successfully", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

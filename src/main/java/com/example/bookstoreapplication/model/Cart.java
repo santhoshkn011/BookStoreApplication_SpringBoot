@@ -1,5 +1,6 @@
 package com.example.bookstoreapplication.model;
 
+import com.example.bookstoreapplication.dto.CartDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

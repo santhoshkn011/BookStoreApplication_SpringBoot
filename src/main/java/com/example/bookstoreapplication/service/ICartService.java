@@ -14,4 +14,6 @@ public interface ICartService {
     List<Cart> getCartDetailsByUserId(Long userId);
 
     String editCartByCartId(Long cartId, CartDTO cartDTO);
+
+    String deleteCartByCartId(Long cartId);
 }

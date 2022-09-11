@@ -73,7 +73,7 @@ public class CartService implements ICartService{
         }else
             return userCartList;
     }
-    //Edit Cart details(Book Details) with Cart ID
+    //Edit Cart details(Book and quantity) with Cart ID
     @Override
     public String editCartByCartId(Long cartId, CartDTO cartDTO) {
         Optional<Cart> cartDetails = cartRepo.findById(cartId);
@@ -81,12 +81,26 @@ public class CartService implements ICartService{
         if(cartDetails.isPresent()){
             if(bookDetails.isPresent()){
                 cartDetails.get().setBook(bookDetails.get());
-                cartRepo.save(cartDetails.get());
-                return "Updated Book with Book ID: "+cartDTO.getBookId();
+                if(cartDTO.getQuantity()<=bookDetails.get().getQuantity()){
+                    cartDetails.get().setQuantity(cartDTO.getQuantity());
+                    cartRepo.save(cartDetails.get());
+                    return "Cart Details Updated! with Book ID: "+cartDTO.getBookId()+", Quantity: "+cartDTO.getQuantity();
+                }else
+                    throw new CartException("Quantity Exceeds, Available Book Quantity: "+bookDetails.get().getQuantity());
             }else
                 throw new CartException("Book ID does not exist: Invalid Book ID");
         }else
             throw new CartException("Invalid Cart ID");
     }
-    //Update cart quantity
+    //Delete by Cart ID
+    @Override
+    public String deleteCartByCartId(Long cartId) {
+        Optional<Cart> cartDetails = cartRepo.findById(cartId);
+        if(cartDetails.isEmpty()){
+            throw new CartException("Cart Does not found: Invalid Cart ID.");
+        }else {
+            cartRepo.deleteByCartId(cartId);
+            return "Deleted Cart ID: "+cartId;
+        }
+    }
 }
