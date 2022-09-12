@@ -13,7 +13,9 @@ public interface ICartService {
     Cart getCartDetailsByCartId(Long cartId);
     List<Cart> getCartDetailsByUserId(Long userId);
 
-    String editCartByCartId(Long cartId, CartDTO cartDTO);
+    String editCartByCartId(Long userId,Long cartId, CartDTO cartDTO);
 
-    String deleteCartByCartId(Long cartId);
+    String deleteCartByCartId(Long cartId, Long UserId);
+
+    List<Cart> getCartDetailsByToken(String token);
 }

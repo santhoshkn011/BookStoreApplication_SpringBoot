@@ -40,6 +40,12 @@ public class BookStoreExceptionHandler {
         ResponseDTO resDTO = new ResponseDTO("Exception while processing Cart REST request", exception.getMessage());
         return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(OrderException.class)
+    public ResponseEntity<ResponseDTO> handleBookStoreException(OrderException exception){
+        ResponseDTO resDTO = new ResponseDTO("Exception while processing Orders REST request", exception.getMessage());
+        return new ResponseEntity(resDTO, HttpStatus.BAD_REQUEST);
+    }
+
 //    @ExceptionHandler(HttpMessageNotReadableException.class)
 //    public ResponseEntity<ResponseDTO> handleHttpMessageNotReadableException(
 //            HttpMessageNotReadableException exception) {

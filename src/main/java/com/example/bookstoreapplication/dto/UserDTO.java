@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public @ToString class UserDTO {
     @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$", message="Invalid First Name(First Letter Should be in Upper Case and min 3 Characters.)")
     String firstName;
-    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z]{1,}$", message="Invalid Last Name(First Letter Should be in Upper Case")
+    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z]{2,}$", message="Invalid Last Name(First Letter Should be in Upper Case and min 3 Characters.")
     String lastName;
     @NotEmpty(message = "Address Cannot be Empty")
     String address;

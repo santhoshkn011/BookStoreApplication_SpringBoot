@@ -73,12 +73,22 @@ public class CartService implements ICartService{
         }else
             return userCartList;
     }
+    @Override
+    public List<Cart> getCartDetailsByToken(String token) {
+        Long userId = tokenUtility.decodeToken(token);
+        List<Cart> userCartList = cartRepo.getCartListWithUserId(userId);
+        if(userCartList.isEmpty()){
+            throw new CartException("Cart is Empty!");
+        }else
+            return userCartList;
+    }
     //Edit Cart details(Book and quantity) with Cart ID
     @Override
-    public String editCartByCartId(Long cartId, CartDTO cartDTO) {
+    public String editCartByCartId(Long userId, Long cartId, CartDTO cartDTO) {
+        Optional<UserDetails> userData = userRepo.findById(userId);
         Optional<Cart> cartDetails = cartRepo.findById(cartId);
         Optional<Book> bookDetails = bookRepo.findById(cartDTO.getBookId());
-        if(cartDetails.isPresent()){
+        if(cartDetails.isPresent() && userData.isPresent()){
             if(bookDetails.isPresent()){
                 cartDetails.get().setBook(bookDetails.get());
                 if(cartDTO.getQuantity()<=bookDetails.get().getQuantity()){
@@ -90,17 +100,18 @@ public class CartService implements ICartService{
             }else
                 throw new CartException("Book ID does not exist: Invalid Book ID");
         }else
-            throw new CartException("Invalid Cart ID");
+            throw new CartException("Invalid Cart ID or User ID!");
     }
     //Delete by Cart ID
     @Override
-    public String deleteCartByCartId(Long cartId) {
+    public String deleteCartByCartId(Long userId, Long cartId) {
+        Optional<UserDetails> userData = userRepo.findById(userId);
         Optional<Cart> cartDetails = cartRepo.findById(cartId);
-        if(cartDetails.isEmpty()){
-            throw new CartException("Cart Does not found: Invalid Cart ID.");
-        }else {
+        if(cartDetails.isPresent() && userData.isPresent()){
             cartRepo.deleteByCartId(cartId);
             return "Deleted Cart ID: "+cartId;
+        }else {
+            throw new CartException("Cart Does not found: Invalid Cart ID or User does not exist.");
         }
     }
 }

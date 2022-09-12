@@ -128,7 +128,6 @@ public class BookService implements IBookService {
                 return "Updated Quantity";
             } else
                 throw new BookException("Token Does not match");
-
         } else
             throw new BookException("Invalid ID");
     }

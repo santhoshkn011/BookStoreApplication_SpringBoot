@@ -2,11 +2,10 @@ package com.example.bookstoreapplication.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-public @ToString class LoginDTO {
+public class ForgotPasswordDTO {
     private String emailAddress;
-    private String password;
+    private String newPassword;
 }

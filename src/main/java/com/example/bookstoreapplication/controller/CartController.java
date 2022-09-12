@@ -45,17 +45,24 @@ public class CartController {
         ResponseDTO responseDTO = new ResponseDTO("Cart Details with User ID: "+userId, userCartDetails);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+    //Get Cart Data by Token
+    @GetMapping("/UserCartToken/{token}")
+    public ResponseEntity<ResponseDTO> getCartDataByToken(@PathVariable String token){
+        List<Cart> userCartDetails = cartService.getCartDetailsByToken(token);
+        ResponseDTO responseDTO = new ResponseDTO("Cart Details with Token: "+token, userCartDetails);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
     //Update Cart Details(Book and Quantity) By CartId
-    @PutMapping("/update/{cartId}")
-    public ResponseEntity<ResponseDTO> updateCartById(@PathVariable Long cartId, @RequestBody CartDTO cartDTO){
-        String response = cartService.editCartByCartId(cartId, cartDTO);
+    @PutMapping("/update/{userId}/{cartId}")
+    public ResponseEntity<ResponseDTO> updateCartById(@PathVariable Long userId, @PathVariable Long cartId, @RequestBody CartDTO cartDTO){
+        String response = cartService.editCartByCartId(userId, cartId, cartDTO);
         ResponseDTO responseDTO = new ResponseDTO("Updated Cart Data with Cart ID: "+cartId, response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
     //Delete Cart by Cart ID
-    @DeleteMapping("/delete/{cartId}")
-    public ResponseEntity<ResponseDTO> deleteCartById(@PathVariable Long cartId){
-        String response = cartService.deleteCartByCartId(cartId);
+    @DeleteMapping("/delete/{userId}/{cartId}")
+    public ResponseEntity<ResponseDTO> deleteCartById(@PathVariable Long cartId, @PathVariable Long userId){
+        String response = cartService.deleteCartByCartId(userId,cartId);
         ResponseDTO responseDTO = new ResponseDTO("Cart Deleted Successfully", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }

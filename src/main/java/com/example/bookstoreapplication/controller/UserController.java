@@ -1,8 +1,6 @@
 package com.example.bookstoreapplication.controller;
 
-import com.example.bookstoreapplication.dto.LoginDTO;
-import com.example.bookstoreapplication.dto.ResponseDTO;
-import com.example.bookstoreapplication.dto.UserDTO;
+import com.example.bookstoreapplication.dto.*;
 import com.example.bookstoreapplication.model.UserDetails;
 import com.example.bookstoreapplication.service.UserService;
 import com.example.bookstoreapplication.utility.TokenUtility;
@@ -33,6 +31,10 @@ public class UserController {
 //        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", userData);
 //        return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 //    }
+
+    /*
+    http://localhost:9090/user/register
+     */
     //insert data using Utility layer and generated Token
     @PostMapping("/register")
     public ResponseEntity<String>AddUserDetails(@Valid @RequestBody UserDTO userDTO) {
@@ -92,8 +94,8 @@ public class UserController {
     }
     //Change password
     @PostMapping("/changePassword")
-    public ResponseEntity<ResponseDTO> changePassword(@RequestBody LoginDTO loginDTO) {
-        String response = userService.changePassword(loginDTO);
+    public ResponseEntity<ResponseDTO> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        String response = userService.changePassword(changePasswordDTO);
         ResponseDTO responseDTO = new ResponseDTO("Password Status:", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
@@ -102,6 +104,13 @@ public class UserController {
     public ResponseEntity<ResponseDTO> forgotPassword(@PathVariable String email) {
         String response = userService.forgotPassword(email);
         ResponseDTO responseDTO = new ResponseDTO("Password Link Shared to email", response);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //reset password to the new password(forgot old password)
+    @PostMapping("/resetPassword")
+    public ResponseEntity<ResponseDTO> resetPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO) {
+        String response = userService.resetPassword(forgotPasswordDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Password Reset", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
