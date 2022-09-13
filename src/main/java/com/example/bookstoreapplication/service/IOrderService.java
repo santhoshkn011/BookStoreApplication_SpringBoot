@@ -15,4 +15,8 @@ public interface IOrderService {
     List<Orders> getOrderDetailsByUserId(Long userId);
 
     List<Orders> getOrderDetailsByToken(String token);
+
+    String editOrderByOrderId(Long orderId, OrderDTO orderDTO);
+
+    String deleteOrderByOrderId(Long orderId);
 }

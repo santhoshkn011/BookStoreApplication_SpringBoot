@@ -23,7 +23,7 @@ public class OrderController {
     @PostMapping("/add")
     public ResponseEntity<ResponseDTO> addOrderDetails(@RequestBody OrderDTO orderDTO){
         String response = orderService.addOrderDetails(orderDTO);
-        ResponseDTO responseDTO = new ResponseDTO("Cart Details Added", response);
+        ResponseDTO responseDTO = new ResponseDTO("Order Details Added", response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
     //Get Order details by order ID
@@ -45,6 +45,20 @@ public class OrderController {
     public ResponseEntity<ResponseDTO> getOrderDataByToken(@PathVariable String token){
         List<Orders> ordersList = orderService.getOrderDetailsByToken(token);
         ResponseDTO responseDTO = new ResponseDTO("Order Details with Token: "+token, ordersList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //Update Order Details(Book and Quantity) By OrderID
+    @PutMapping("/update/{orderId}")
+    public ResponseEntity<ResponseDTO> updateOrderById(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO){
+        String response = orderService.editOrderByOrderId(orderId, orderDTO);
+        ResponseDTO responseDTO = new ResponseDTO("Updated Order Details with Order ID: "+orderId, response);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+    //Update Order Details(Book and Quantity) By OrderID
+    @DeleteMapping("/delete/{orderId}")
+    public ResponseEntity<ResponseDTO> updateDeleteById(@PathVariable Long orderId){
+        String response = orderService.deleteOrderByOrderId(orderId);
+        ResponseDTO responseDTO = new ResponseDTO("Data Deleted Status of order Id: "+orderId, response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
