@@ -18,5 +18,5 @@ public interface IOrderService {
 
     String editOrderByOrderId(Long orderId, OrderDTO orderDTO);
 
-    String deleteOrderByOrderId(Long orderId);
+    String deleteOrderByOrderId(Long userId, Long orderId);
 }

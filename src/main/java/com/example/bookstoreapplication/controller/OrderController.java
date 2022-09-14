@@ -1,9 +1,7 @@
 package com.example.bookstoreapplication.controller;
 
-import com.example.bookstoreapplication.dto.CartDTO;
 import com.example.bookstoreapplication.dto.OrderDTO;
 import com.example.bookstoreapplication.dto.ResponseDTO;
-import com.example.bookstoreapplication.model.Cart;
 import com.example.bookstoreapplication.model.Orders;
 import com.example.bookstoreapplication.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +53,10 @@ public class OrderController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
     //Update Order Details(Book and Quantity) By OrderID
-    @DeleteMapping("/delete/{orderId}")
-    public ResponseEntity<ResponseDTO> updateDeleteById(@PathVariable Long orderId){
-        String response = orderService.deleteOrderByOrderId(orderId);
-        ResponseDTO responseDTO = new ResponseDTO("Data Deleted Status of order Id: "+orderId, response);
+    @DeleteMapping("/delete/{userId}/{orderId}")
+    public ResponseEntity<ResponseDTO> updateDeleteById(@PathVariable Long userId,@PathVariable Long orderId){
+        String response = orderService.deleteOrderByOrderId(userId, orderId);
+        ResponseDTO responseDTO = new ResponseDTO("Status of order Id: "+orderId, response);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
