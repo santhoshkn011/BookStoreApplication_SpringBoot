@@ -1,45 +1,39 @@
 package com.example.bookstoreapplication.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.List;
 
 @Entity
-@Data@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@ToString
-//order is a predefined query taq in sql
-@Table(name="orders")
-public class Orders {
+public class BookOrders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "orderId", nullable = false)
-    private Long orderId;
+    @Column(name = "book_order_id", nullable = false)
+    private Long bookOrderId;
     @JoinColumn(name="userId")
     @OneToOne(cascade = {CascadeType.ALL})
     private UserDetails user;
-    @JoinColumn(name="BookId")
-    @ManyToOne(cascade = {CascadeType.ALL})
-    private Book book;
+//    private List<Cart> cartList;
+    @ManyToMany
+    private List<Book> bookList;
     int orderQuantity;
     double orderPrice;
     String address;
     LocalDate orderDate;
     boolean cancel;
-
-    public Orders(UserDetails user, Book book, int orderQuantity, double orderPrice, String address, LocalDate orderDate, boolean cancel) {
+    public BookOrders(UserDetails user, List bookList, int orderQuantity, double orderPrice,String address, LocalDate orderDate, boolean cancel) {
         this.user = user;
-        this.book = book;
+//        this.cartList = cartList;
+        this.bookList = bookList;
         this.orderQuantity = orderQuantity;
         this.orderPrice = orderPrice;
         this.address = address;
         this.orderDate = orderDate;
         this.cancel = cancel;
     }
-
 }

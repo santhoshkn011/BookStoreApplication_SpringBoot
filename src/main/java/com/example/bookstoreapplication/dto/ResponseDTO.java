@@ -17,7 +17,7 @@ public class ResponseDTO {
         this.message = message;
         this.response = response;
     }
-    public ResponseDTO(String message, UserDetails response) {
+    public ResponseDTO(String message, Optional<UserDetails> response) {
         this.message = message;
         this.response = response;
     }
@@ -26,10 +26,10 @@ public class ResponseDTO {
         this.response = response;
     }
 
-    public ResponseDTO(String message, Optional<UserDetails> response) {
-        this.message = message;
-        this.response = response;
-    }
+//    public ResponseDTO(String message, Optional<UserDetails> response) {
+//        this.message = message;
+//        this.response = response;
+//    }
     public ResponseDTO(String message, Book response) {
         this.message = message;
         this.response = response;

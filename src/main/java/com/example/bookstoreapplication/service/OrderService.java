@@ -4,9 +4,11 @@ import com.example.bookstoreapplication.dto.OrderDTO;
 import com.example.bookstoreapplication.exception.CartException;
 import com.example.bookstoreapplication.exception.OrderException;
 import com.example.bookstoreapplication.model.Book;
+import com.example.bookstoreapplication.model.Cart;
 import com.example.bookstoreapplication.model.Orders;
 import com.example.bookstoreapplication.model.UserDetails;
 import com.example.bookstoreapplication.repository.BookRepo;
+import com.example.bookstoreapplication.repository.CartRepo;
 import com.example.bookstoreapplication.repository.OrderRepo;
 import com.example.bookstoreapplication.repository.UserRepo;
 import com.example.bookstoreapplication.utility.EmailSenderService;
@@ -28,12 +30,15 @@ public class OrderService implements IOrderService{
     @Autowired
     OrderRepo orderRepo;
     @Autowired
+    CartRepo cartRepo;
+    @Autowired
     TokenUtility tokenUtility;
     @Autowired
     EmailSenderService emailSender;
     @Override
     public String addOrderDetails(OrderDTO orderDTO) {
         Optional<UserDetails> userDetails = userRepo.findById(orderDTO.getUserId());
+        List<Cart> cartList = cartRepo.getCartListWithUserId(userDetails.get().getUserId());
         Optional<Book> bookDetails = bookRepo.findById(orderDTO.getBookId());
         if(userDetails.isPresent() && bookDetails.isPresent()){
             if(orderDTO.getOrderQuantity()<=bookDetails.get().getQuantity()){
